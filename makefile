@@ -1,4 +1,6 @@
 build:
-	sudo gcc mouseCoordinates.c -o "letsGetTheCoordinates" -Wall
+	sudo gcc moveMouse.c -o "moveMouse"  -Wall
 run:
-	sudo ./letsGetTheCoordinates
+	sudo ./moveMouse
+detectMouse:
+	sudo gcc mouseCoordinates.c -o "letsGetTheCoordinates" -Wall

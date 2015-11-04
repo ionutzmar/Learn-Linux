@@ -10,6 +10,7 @@
 const char *path = "/dev/input/mouse1";
 
 int err, errm;
+char bytesw[]= {8, 1, 2};
 char bytes[3];
 int i;
 int minus = 0;
@@ -26,16 +27,12 @@ void showBinary(char *bts)
 		fprintf(stdout, "%d ", (bytes[2] & 1 << i) != 0);
 	fprintf(stdout, "\n");
 	fprintf(stdout, "\n");
-	
-	for (i = 0; i < 32; i++)
-		minus |= 1 << i;
-	fprintf(stdout, "%d\n", minus);
 }
 
 int main(int argc, char const *argv[])
 {
 	
-	int fd = open(path, O_RDONLY);//, O_SYNC);
+	int fd = open(path, O_RDWR);
 	errm = errno;
 	if (fd < 0)
 	{
@@ -43,9 +40,18 @@ int main(int argc, char const *argv[])
 		return -1;
 	}
 
-	//READ
+
+	//Write
 	while(1)
 	{
+		err = write(fd, bytesw, 30);
+		errm = errno;
+		if (err <= 0)
+		{
+			fprintf(stderr, "Write failed: %s\n", strerror(errm));
+			return -1;
+		}
+
 		err = read(fd, bytes, 3);
 		errm = errno;
 		if (err < 0)
@@ -54,7 +60,14 @@ int main(int argc, char const *argv[])
 			return -1;
 		}
 
-		showBinary(bytes);
+		if (err == 3)
+			showBinary(bytes);
+		else
+		{
+			fprintf(stderr, "Write or Read did not work, err is: %d\n", err);
+			showBinary(bytes);
+		}
+
 	}
 
 
