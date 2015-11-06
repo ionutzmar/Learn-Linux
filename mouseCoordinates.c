@@ -7,7 +7,7 @@
 #include <errno.h>
 #include <string.h>
 
-const char *path = "/dev/input/mouse1";
+const char *path = "/dev/input/mice";
 
 int err, errm;
 char bytes[3];
@@ -26,10 +26,6 @@ void showBinary(char *bts)
 		fprintf(stdout, "%d ", (bytes[2] & 1 << i) != 0);
 	fprintf(stdout, "\n");
 	fprintf(stdout, "\n");
-	
-	for (i = 0; i < 32; i++)
-		minus |= 1 << i;
-	fprintf(stdout, "%d\n", minus);
 }
 
 int main(int argc, char const *argv[])

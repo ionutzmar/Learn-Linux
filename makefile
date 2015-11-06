@@ -1,5 +1,5 @@
 build:
-	sudo gcc moveMouse.c -o "moveMouse"  -Wall
+	sudo gcc moveMouse.c -o "moveMouse" -Wall
 run:
 	sudo ./moveMouse
 detectMouse:
